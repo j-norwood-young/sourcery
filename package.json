@@ -1,0 +1,14 @@
+{
+  "name": "sourcery",
+  "version": "0.0.1",
+  "description": "Helps journos authenticate electronic data (pics, vids, docs etc)",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Jason Norwood-Young <jason@10layer.com>",
+  "license": "MIT"
+}

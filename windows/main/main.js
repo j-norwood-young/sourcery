@@ -20,7 +20,7 @@ var processFile = (fname, depth) => {
 	if (fs.lstatSync(fname).isDirectory()) {
 		depth++;
 		if (depth > maxdepth) {
-			return new Promise();
+			return Promise.resolve();
 		}
 		let files = fs.readdirSync(fname);
 		let queue = [];
@@ -36,7 +36,6 @@ var processFile = (fname, depth) => {
 		});
 		return new Promise((resolve, reject) => {
 			async.series(queue, (err, result) => {
-				console.log(err, result);
 				if (err)
 					return reject(err);
 				return resolve(result);

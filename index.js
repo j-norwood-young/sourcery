@@ -7,7 +7,7 @@ function createWindow () {
 	win = new BrowserWindow({width: 800, height: 600});
 
 	// and load the index.html of the app.
-	win.loadURL(`file://${__dirname}/index.html`);
+	win.loadURL(`file://${__dirname}/windows/main/index.html`);
 
 	// Open the DevTools.
 	win.webContents.openDevTools();
@@ -43,3 +43,17 @@ app.on('activate', () => {
 	}
 });
 
+// File dialog
+const ipc = require('electron').ipcMain;
+const dialog = require('electron').dialog;
+
+ipc.on('open-file-dialog', function (event) {
+	dialog.showOpenDialog({
+		properties: ['openFile', 'openDirectory', 'multiSelections'],
+		filters : [
+			{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+		]
+	}, function (files) {
+		if (files) event.sender.send('selected-directory', files);
+	});
+});

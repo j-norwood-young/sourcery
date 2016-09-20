@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "Helps journos authenticate electronic data (pics, vids, docs etc)",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "async": "^2.0.1",
+    "fast-exif": "^0.2.0"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

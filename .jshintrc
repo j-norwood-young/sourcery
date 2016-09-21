@@ -2,6 +2,7 @@
 	"node": true,
 	"esversion": 6,
 	"globals": { 
-		"document": true 
+		"document": true,
+		"window": true
 	}
 }

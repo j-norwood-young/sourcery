@@ -3,16 +3,11 @@
 
 const ipc = require('electron').ipcRenderer;
 const exif = require('fast-exif');
-const { fileinfo } = require(__dirname + "/../../lib/meta-geta.js");
+const { fileinfo } = require(__dirname + "/../lib/meta-geta.js");
 const fs = require("fs");
 const async = require("async");
 const path = require("path");
 const maxdepth = 1;
-
-var btnBrowse = document.getElementById("btnBrowse");
-btnBrowse.addEventListener("click", () => {
-	ipc.send('open-file-dialog');
-});
 
 var processFile = (fname, depth) => {
 	depth = depth || 0;
@@ -54,3 +49,19 @@ ipc.on('selected-directory', function (event, path) {
 	document.getElementById('selected-file').innerHTML = `You selected: ${path}`;
 	path.forEach((fname) => { processFile(fname); });
 });
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Main from './views/main.jsx';
+
+/* jshint ignore:start */
+window.onload = function() {
+	console.log("Loading");
+	var btnBrowse = document.getElementById("btnBrowse");
+	btnBrowse.addEventListener("click", () => {
+		console.log("Click");
+		ipc.send('open-file-dialog');
+	});
+	ReactDOM.render(<Main />, document.getElementById("app"));
+}
+/* jshint ignore:end */

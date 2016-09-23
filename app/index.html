@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Sourcery</title>
-		<link rel="stylesheet" href="../public/css/sourcery.min.css">
+		<link rel="stylesheet" href="../app/public/css/sourcery.min.css">
 		<script>
 			require('babel-register');
 			require("./main");
@@ -16,33 +16,18 @@
 			<header class="toolbar toolbar-header">
 				<h1 class="title">Sourcery</h1>
 				<div class="toolbar-actions">
-					<div class="btn-group">
-						<button class="btn btn-default">
-							<span class="icon icon-home"></span>
-						</button>
-						<button class="btn btn-default" id="btnBrowse">
-							<span class="icon icon-folder"></span>
-						</button>
-						<button class="btn btn-default active">
-							<span class="icon icon-cloud"></span>
-						</button>
-						<button class="btn btn-default">
-							<span class="icon icon-popup"></span>
-						</button>
-						<button class="btn btn-default">
-							<span class="icon icon-shuffle"></span>
-						</button>
-					</div>
+					<div id="toolbarButtons"></div>
 				</div>
 			</header>
 			<!-- Your app's content goes inside .window-content -->
 			<div class="window-content">
 				<div class="padded-more">
 					<h1>Welcome to Sourcery</h1>
+					<div id="app"></div>
 					<p>
 						<span id="selected-file"></span>
 					</p>
-					<div id="app"></div>
+					
 				</div>
 			</div>
 		</div>

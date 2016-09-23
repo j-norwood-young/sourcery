@@ -58,3 +58,8 @@ ipc.on('open-file-dialog', function (event) {
 		if (files) event.sender.send('selected-directory', files);
 	});
 });
+
+ipc.on("asset-parsed", (event, asset) => { 
+//At the moment we just pass this back. At some point we'll probably save this locally.
+	event.sender.send("asset-parsed", asset);
+});

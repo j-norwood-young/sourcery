@@ -2,10 +2,10 @@
 
 const fs = require("fs");
 const identify = require("identify-filetype");
+const pdfmeta = require("./pdf-meta");
 
 var filetype = (fname) => {
 	return new Promise((resolve, reject) => {
-
 		try {
 			fs.readFile(fname, (err, buffer) => {
 				if (err)
@@ -28,4 +28,8 @@ function fileinfo(fname) {
 	});
 }
 
-module.exports = { fileinfo, filetype };
+var pdf = (fname) => {
+	return pdfmeta.get_meta(fname);
+}
+
+module.exports = { fileinfo, filetype, pdf };

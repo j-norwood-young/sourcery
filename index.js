@@ -52,7 +52,8 @@ ipc.on('open-file-dialog', function (event) {
 	dialog.showOpenDialog({
 		properties: ['openFile', 'openDirectory', 'multiSelections'],
 		filters : [
-			{ name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+			{ name: 'Images', extensions: ['jpg', 'png', 'gif', 'jpeg'] },
+			{ name: 'PDF', extensions: ['pdf'] },
 		]
 	}, function (files) {
 		if (files) event.sender.send('selected-directory', files);

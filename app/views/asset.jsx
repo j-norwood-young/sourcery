@@ -64,39 +64,82 @@ var assetClick = function(data) {
 	ipc.send("asset-clicked", data);
 }
 
+
+var parsePDF = function(obj) {
+	let flatPDF = flattenObject(obj);
+	var result = [];
+	for (let i in flatPDF) {
+		result.push(<div className="pdfinfo"><strong>{i}</strong> {flatPDF[i]}</div>);
+	}
+	return result;
+}
+
 class Asset extends React.Component {
 	constructor(props) {
 		super(props);
 		console.log(props);
-		this.state = { exif: [], features: [] };
-		this.state.features.push(<span className="icon icon-calendar"></span>);
-		this.state.shortfname = path.basename(this.props.filename);
-		this.state.filesize = prettyBytes(this.props.fileinfo.size);
-		if (props.exif) {
-			this.state.exif = parseExif(props.exif);
-			this.state.features.push(<span className="icon icon-camera"></span>);
-			if (props.exif.gps) {
-				this.state.features.push(<span className="icon icon-location"></span>);
-			}
-		}
 	}
 	
 	render() {
-		// var active = (this.state.active) ? ("btn-active") : "";
-		return (
-			<div className="asset" onClick={ () => { assetClick(this.props) } }>
-				<h5>{ this.state.shortfname }</h5>
-				<div className="pull-left pad-right half">
-					<img src={this.props.filename} />
-				</div>
-				<div className="pull-left half">
-					<div>{ this.state.filesize }</div>
-					<div className="featureIcons">
-						{ this.state.features }
+		console.log("Rendering");
+		this.state = { exif: [], features: [] };
+		this.state.features.push(<span className="icon icon-calendar"></span>);
+		this.state.shortfname = path.basename(this.props.asset.filename);
+		this.state.filesize = prettyBytes(this.props.asset.fileinfo.size);
+		if (this.props.asset.exif) {
+			this.state.exif = parseExif(this.props.asset.exif);
+			this.state.features.push(<span className="icon icon-camera"></span>);
+			if (this.props.asset.exif.gps) {
+				this.state.features.push(<span className="icon icon-location"></span>);
+			}
+		}
+		if (this.props.asset.pdf) {
+			this.state.pdf = parsePDF(this.props.asset.pdf);
+			this.state.features.push(<span className="icon icon-info"></span>);
+		}
+		if (this.props.preview) {
+			return (
+				<div className="asset" onClick={ () => { assetClick(this.props.asset) } }>
+					<h5>{ this.state.shortfname }</h5>
+					<div className="pull-left pad-right half">
+						<img src={this.props.asset.filename} />
+					</div>
+					<div className="pull-left half">
+						<div>{ this.state.filesize }</div>
+						<div className="featureIcons">
+							{ this.state.features }
+						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		} else {
+			return (
+				<div className="detail">
+					<h5>{ this.state.shortfname }</h5>
+					<div className="img-container">
+						<img src={this.props.asset.filename} />
+					</div>
+					<div className="">
+						<div>{ this.state.filesize }</div>
+						<div className="featureIcons">
+							{ this.state.features }
+						</div>
+					</div>
+					<p>
+						<strong>Change Time</strong> { this.props.asset.fileinfo.ctime }<br />
+						<strong>Modified Time</strong> { this.props.asset.fileinfo.mtime }<br />
+						<strong>Access Time</strong> { this.props.asset.fileinfo.atime }<br />
+						<strong>Birthtime</strong> { this.props.asset.fileinfo.birthtime }
+					</p>
+					<p>
+						{ this.state.exif }
+					</p>
+					<p>
+						{ this.state.pdf }
+					</p>
+				</div>
+			);
+		}
 	}
 }
 

@@ -10,7 +10,7 @@ class Assets extends React.Component {
 		this.state = { children: [] };
 		ipc.on("asset-parsed", (event, asset) => {
 			console.log("Setting asset", asset)
-			this.setState({ children: this.state.children.concat([(<Asset filename={ asset.filename } fileinfo={ asset.fileinfo } exif={ asset.exif } />)]) } );
+			this.setState({ children: this.state.children.concat([(<Asset asset={ asset } preview={ true } />)]) } );
 		});
 		ipc.on("clear-workspace", (event) => {
 			console.log("Clearing workspace");

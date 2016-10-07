@@ -1,12 +1,13 @@
 const ipc = require('electron').ipcRenderer;
 const fs = require("fs");
 const exif = require('fast-exif');
-const { fileinfo, filetype } = require(__dirname + "/../lib/meta-geta.js");
+const { fileinfo, filetype, pdf } = require(__dirname + "/../lib/meta-geta.js");
 const async = require("async");
 const path = require("path");
 const maxdepth = 1;
 
 var processFile = (fname, depth) => {
+	console.log("Checking", fname);
 	depth = depth || 0;
 	var data = { filename: fname };
 	// console.log(`Processing ${fname} depth ${depth}`);
@@ -46,8 +47,17 @@ var processFile = (fname, depth) => {
 	})
 	.then((result) => {
 		data.filetype = result;
+		if (path.extname(fname) === ".pdf") {
+			return pdf(fname);
+		} else {
+			return null;
+		}
+	})
+	.then((result) => {
+		console.log(result);
+		if (result)
+			data.pdf = result;
 		ipc.send("asset-parsed", data);
-		// console.log(data);
 	}, (err) => { console.log(err); });
 };
 

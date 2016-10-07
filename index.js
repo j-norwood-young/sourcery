@@ -5,7 +5,7 @@ let win;
 
 function createWindow () {
 	// Create the browser window.
-	win = new BrowserWindow({width: 800, height: 600});
+	win = new BrowserWindow({minWidth: 800, minHeight: 600, width: 1024, height: 600 });
 
 	// and load the index.html of the app.
 	win.loadURL(`file://${__dirname}/app/index.html`);
@@ -62,4 +62,12 @@ ipc.on('open-file-dialog', function (event) {
 ipc.on("asset-parsed", (event, asset) => { 
 //At the moment we just pass this back. At some point we'll probably save this locally.
 	event.sender.send("asset-parsed", asset);
+});
+
+ipc.on("clear-workspace", (event) => {
+	event.sender.send("clear-workspace");
+});
+
+ipc.on("asset-clicked", (event, asset) => {
+	event.sender.send("asset-detail", asset);
 });

@@ -4,40 +4,6 @@ const path = require("path");
 const prettyBytes = require('pretty-bytes');
 const ipc = require('electron').ipcRenderer;
 
-// https://gist.github.com/penguinboy/762197
-var flattenObject = function(ob) {
-	var toReturn = {};
-	for (var i in ob) {
-		if (!ob.hasOwnProperty(i)) continue;
-		
-		if ((typeof ob[i]) == 'object') {
-			var flatObject = flattenObject(ob[i]);
-			for (var x in flatObject) {
-				if (!flatObject.hasOwnProperty(x)) continue;
-				toReturn[i + '.' + x] = flatObject[x];
-			}
-		} else {
-			toReturn[i] = ob[i];
-		}
-	}
-	return toReturn;
-};
-
-var filterExif = (exif) => {
-	let removeProps = [ "image.Padding", "exif.Padding", "exif.UserComment" ]
-	let tmp = {};
-	for(let i in exif) {
-		let pass = true;
-		removeProps.forEach((removeProp) => {
-			if (i.indexOf(removeProp) !== -1)
-				pass = false;
-		});
-		if (pass)
-			tmp[i] = exif[i];
-	}
-	return tmp;
-}
-
 var parseExif = (exif) => {
 	var exifPossibleFeatures = { 
 		"image.Software": "Software",
@@ -59,45 +25,83 @@ var parseExif = (exif) => {
 	return result;
 }
 
-var assetClick = function(data) {
-	console.log("Caught click");
-	ipc.send("asset-clicked", data);
+var filterExif = (exif) => {
+	let removeProps = [ "image.Padding", "exif.Padding", "exif.UserComment" ]
+	let tmp = {};
+	for(let i in exif) {
+		let pass = true;
+		removeProps.forEach((removeProp) => {
+			if (i.indexOf(removeProp) !== -1)
+				pass = false;
+		});
+		if (pass)
+			tmp[i] = exif[i];
+	}
+	return tmp;
 }
 
-class Asset extends React.Component {
+var flattenObject = function(ob) {
+	var toReturn = {};
+	for (var i in ob) {
+		if (!ob.hasOwnProperty(i)) continue;
+		
+		if ((typeof ob[i]) == 'object') {
+			var flatObject = flattenObject(ob[i]);
+			for (var x in flatObject) {
+				if (!flatObject.hasOwnProperty(x)) continue;
+				toReturn[i + '.' + x] = flatObject[x];
+			}
+		} else {
+			toReturn[i] = ob[i];
+		}
+	}
+	return toReturn;
+};
+
+class Detail extends React.Component {
 	constructor(props) {
 		super(props);
 		console.log(props);
+	}
+	
+	render() {
+		console.log("Rendering");
 		this.state = { exif: [], features: [] };
 		this.state.features.push(<span className="icon icon-calendar"></span>);
 		this.state.shortfname = path.basename(this.props.filename);
 		this.state.filesize = prettyBytes(this.props.fileinfo.size);
-		if (props.exif) {
-			this.state.exif = parseExif(props.exif);
+		if (this.props.exif) {
+			this.state.exif = parseExif(this.props.exif);
 			this.state.features.push(<span className="icon icon-camera"></span>);
-			if (props.exif.gps) {
+			if (this.props.exif.gps) {
 				this.state.features.push(<span className="icon icon-location"></span>);
 			}
 		}
-	}
-	
-	render() {
 		// var active = (this.state.active) ? ("btn-active") : "";
 		return (
-			<div className="asset" onClick={ () => { assetClick(this.props) } }>
+			<div className="detail">
 				<h5>{ this.state.shortfname }</h5>
-				<div className="pull-left pad-right half">
+				<div className="img-container">
 					<img src={this.props.filename} />
 				</div>
-				<div className="pull-left half">
+				<div className="">
 					<div>{ this.state.filesize }</div>
 					<div className="featureIcons">
 						{ this.state.features }
 					</div>
 				</div>
+				<p>
+					<strong>Change Time</strong> { this.props.fileinfo.ctime }<br />
+					<strong>Modified Time</strong> { this.props.fileinfo.mtime }<br />
+					<strong>Access Time</strong> { this.props.fileinfo.atime }<br />
+					<strong>Birthtime</strong> { this.props.fileinfo.birthtime }
+				</p>
+				<p>
+					{ this.state.exif }
+				</p>
 			</div>
 		);
 	}
 }
 
-export default Asset;
+export default Detail;

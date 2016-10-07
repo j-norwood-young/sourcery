@@ -17,6 +17,8 @@ It's important to understand what the metadata means, and to understand ways in 
 It covers a variety of file formats. Currently, it will find date and size information on any file. 
 
 - Exif data for images;
+- Metadata from PDF;
+- XMP data from PDF;
 
 ## Platforms
 

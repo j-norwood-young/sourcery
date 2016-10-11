@@ -6,6 +6,21 @@ const async = require("async");
 const path = require("path");
 const maxdepth = 1;
 
+const imgFormats = [".jpg", ".jpeg", ".gif", ".gifv", ".png", ".bmp"];
+
+var imgFile = (fname) => {
+	var ext = path.extname(fname);
+	if (imgFormats.indexOf(ext) != -1) {
+		console.log("Image");
+		return fname;
+	}
+	if (ext == ".pdf") {
+		console.log("PDF");
+		return path.join(__dirname, "../../assets/icons/pdf.svg");
+	}
+	console.log("Not found", ext);
+}
+
 var processFile = (fname, depth) => {
 	console.log("Checking", fname);
 	depth = depth || 0;
@@ -57,6 +72,7 @@ var processFile = (fname, depth) => {
 		console.log(result);
 		if (result)
 			data.pdf = result;
+		data.img = imgFile(fname);
 		ipc.send("asset-parsed", data);
 	}, (err) => { console.log(err); });
 };

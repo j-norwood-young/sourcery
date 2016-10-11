@@ -3,6 +3,7 @@ import React from 'react';
 const path = require("path");
 const prettyBytes = require('pretty-bytes');
 const ipc = require('electron').ipcRenderer;
+const shell = require('electron').shell;
 
 // https://gist.github.com/penguinboy/762197
 var flattenObject = function(ob) {
@@ -102,7 +103,7 @@ class Asset extends React.Component {
 				<div className="asset" onClick={ () => { assetClick(this.props.asset) } }>
 					<h5>{ this.state.shortfname }</h5>
 					<div className="pull-left pad-right half">
-						<img src={this.props.asset.filename} />
+						<img src={this.props.asset.img} />
 					</div>
 					<div className="pull-left half">
 						<div>{ this.state.filesize }</div>
@@ -117,9 +118,10 @@ class Asset extends React.Component {
 				<div className="detail">
 					<h5>{ this.state.shortfname }</h5>
 					<div className="img-container">
-						<img src={this.props.asset.filename} />
+						<img src={this.props.asset.img} />
 					</div>
 					<div className="">
+						<div className="btn btn-primary" onClick={ () => shell.openItem(this.props.asset.filename) }>Open</div>
 						<div>{ this.state.filesize }</div>
 						<div className="featureIcons">
 							{ this.state.features }

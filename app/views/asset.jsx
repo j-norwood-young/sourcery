@@ -75,32 +75,94 @@ var parsePDF = function(obj) {
 	return result;
 }
 
+var extClasses = {
+	"img": [ ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tif", ".tiff" ],
+	"doc": [ ".pdf", ".doc", ".docx", ".odf", ".pages", ".txt", ".rtf", ".epub"],
+	// https://en.wikipedia.org/wiki/Video_file_format
+	"vid": [ ".mp4", ".m4v", ".m4p", ".mpg", ".mpeg", ".mpv", ".mp2", ".m2v", ".3gp", ".3g2", ".avi", ".mov", ".qt", ".wmv", ".webm", ".mkv", ".flv", ".f4v", ".f4p", ".f4a", ".f4b", ".vob", ".ogv", ".gifv", ".yuv",  ],
+	"unknown": [ "unknown" ],
+}
+
+var getExtClass = (filename) => {
+	var ext = path.extname(filename);
+	for (var i in extClasses) {
+		if (extClasses[i].indexOf(ext) !== -1) {
+			return i;
+		}
+	}
+	return "unknown";
+}
+
 class Asset extends React.Component {
 	constructor(props) {
 		super(props);
 		console.log(props);
-	}
-	
-	render() {
-		console.log("Rendering");
-		this.state = { exif: [], features: [] };
+		var self = this;
+		this.state = { exif: [], features: [], active: false };
 		this.state.features.push(<span className="icon icon-calendar"></span>);
 		this.state.shortfname = path.basename(this.props.asset.filename);
 		this.state.filesize = prettyBytes(this.props.asset.fileinfo.size);
+		this.state.f = [ "all" ];
 		if (this.props.asset.exif) {
 			this.state.exif = parseExif(this.props.asset.exif);
 			this.state.features.push(<span className="icon icon-camera"></span>);
-			if (this.props.asset.exif.gps) {
+			this.state.f.push("exif");
+			if (this.props.asset.exif.gps && this.props.asset.exif.gps.GPSLatitude) {
 				this.state.features.push(<span className="icon icon-location"></span>);
+				this.state.f.push("location");
 			}
 		}
 		if (this.props.asset.pdf) {
 			this.state.pdf = parsePDF(this.props.asset.pdf);
 			this.state.features.push(<span className="icon icon-info"></span>);
+			this.state.f.push("meta");
 		}
+		ipc.on("asset-detail", (sender, asset) => {
+			if (asset.filename === this.props.asset.filename) {
+				this.state.active = true;
+			} else {
+				this.state.active = false;
+			}
+		});
+		ipc.on("filter", (sender, filters) => {
+			// console.log(filters);
+			// console.log("f", this.state.f);
+			var foundFile = false;
+			var fileClass = getExtClass(this.props.asset.filename);
+			for(var i in filters.file) {
+				if (filters.file[i] && (i == fileClass)) {
+					foundFile = true;
+					break;
+				}
+			}
+			var foundFeature = false;
+			for(var i in filters.feature) {
+				console.log("Checking", i);
+				if (filters.feature[i] && (this.state.f.indexOf(i) !== -1)) {
+					console.log("Found");
+					foundFeature = true;
+					break;
+				}
+			}
+			console.log(foundFile, foundFeature);
+			var display = foundFile && foundFeature;
+			// console.log("Hide", !display);
+			this.setState({ hidden: !display });
+		});
+	}
+	
+	render() {
+		console.log("Rendering", this.state);
 		if (this.props.preview) {
+			var className = "asset";
+			if (this.state.active) {
+				className += " active";
+			}
+			if (this.state.hidden) {
+				className += " hidden";
+			}
 			return (
-				<div className="asset" onClick={ () => { assetClick(this.props.asset) } }>
+				<div className={ className } onClick={ () => { assetClick(this.props.asset) } }>
 					<h5>{ this.state.shortfname }</h5>
 					<div className="pull-left pad-right half">
 						<img src={this.props.asset.img} />

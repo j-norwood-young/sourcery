@@ -13,6 +13,9 @@ var Render = function() {
 	ipc.on("asset-detail", (sender, asset) => {
 		ReactDOM.render(<Asset asset={ asset } />, document.getElementById("detail"));
 	});
+	ipc.on("clear-workspace", (event) => {
+		ReactDOM.render(<div></div>, document.getElementById("detail"));
+	});
 };
 
 module.exports = Render;

@@ -19,7 +19,7 @@ var imgFile = (fname) => {
 		return path.join(__dirname, "../../assets/icons/pdf.svg");
 	}
 	console.log("Not found", ext);
-}
+};
 
 var processFile = (fname, depth) => {
 	console.log("Checking", fname);

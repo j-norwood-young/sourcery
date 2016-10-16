@@ -70,5 +70,29 @@ ipc.on("clear-workspace", (event) => {
 });
 
 ipc.on("asset-clicked", (event, asset) => {
+	console.log(event);
 	event.sender.send("asset-detail", asset);
+});
+
+// We define our filter state here so that we can send it to any part of our app as a whole
+var filters = {
+	file: { 
+		"img": true, 
+		"doc": true,
+		"vid": true,
+		"unknown": true,
+	},
+	feature: {
+		"all": true,
+		"location": true, 
+		"exif": true,
+		"meta": true,
+	}
+};
+
+ipc.on("filter", (event, filterType, filterIndex, state) => {
+	console.log(filterType, filterIndex, state);
+	filters[filterType][filterIndex] = state;
+	console.log(filters);
+	event.sender.send("filter", filters);
 });

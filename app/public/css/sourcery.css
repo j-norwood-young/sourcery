@@ -1939,6 +1939,9 @@ img {
   overflow-y: scroll;
   float: left;
 }
+#assets .hidden {
+  display: none;
+}
 #assets .asset {
   border-bottom: 1px #ccc solid;
   width: 100%;

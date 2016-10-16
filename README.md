@@ -2,7 +2,7 @@
 
 Helping journalists interview digital assets
 
-This is version 0.0.1 Alpha. IT IS NOT PRODUCTION-READY. Download it if you're happy with compiling it all yourself, and possibly want to make a contribution.
+This is version 0.0.2 Alpha. IT IS NOT PRODUCTION-READY. Download it if you're happy with compiling it all yourself, and possibly want to make a contribution.
 
 ## About
 
@@ -29,6 +29,7 @@ Sourcery is built on Electron, which means it will compile for Mac OSX, Linux, a
 It's very early days for this project, so the roadmap is pretty fluid.
 
 1. Support lots and lots of file types
+  - Images
   - PDF
   - Microsoft Doc and DocX
   - Other Microsoft Office formats

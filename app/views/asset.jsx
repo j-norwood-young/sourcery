@@ -97,7 +97,6 @@ class Asset extends React.Component {
 	constructor(props) {
 		super(props);
 		console.log(props);
-		var self = this;
 		this.state = { exif: [], features: [], active: false };
 		this.state.features.push(<span className="icon icon-calendar"></span>);
 		this.state.shortfname = path.basename(this.props.asset.filename);

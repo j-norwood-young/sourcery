@@ -11,7 +11,9 @@ var Render = function() {
 	ReactDOM.render(<Toolbar />, document.getElementById("toolbarButtons"));
 	ReactDOM.render(<Assets />, document.getElementById("assets"));
 	ipc.on("asset-detail", (sender, asset) => {
-		ReactDOM.render(<Asset asset={ asset } />, document.getElementById("detail"));
+		// First we clear the element, to stop stupid React from updating state instead of replacing the entire thing
+		ReactDOM.render(<div></div>, document.getElementById("detail"));
+		ReactDOM.render(<Asset asset={ asset } key={ asset.filename } />, document.getElementById("detail"));
 	});
 	ipc.on("clear-workspace", (event) => {
 		ReactDOM.render(<div></div>, document.getElementById("detail"));

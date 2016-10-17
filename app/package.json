@@ -1,0 +1,32 @@
+{
+  "name": "sourcery",
+  "version": "0.0.2",
+  "description": "Sourcery - Helping journalists interview digital assets",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-norwood-young/sourcery.git"
+  },
+  "keywords": [
+    "Metadata",
+    "Journalism"
+  ],
+  "author": "Jason Norwood-Young <jason@10layer.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/j-norwood-young/sourcery/issues"
+  },
+  "homepage": "https://github.com/j-norwood-young/sourcery#readme",
+  "build": {
+    "appId": "org.code4sa.sourcery",
+    "mac": {
+      "category": "public.app-category.utilities",
+    },
+    "win": {
+      "iconUrl": "(windows-only) https link to icon"
+    }
+  }
+}

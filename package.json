@@ -1,7 +1,7 @@
 {
   "name": "sourcery",
   "version": "0.0.1",
-  "description": "Helps journos authenticate electronic data (pics, vids, docs etc)",
+  "description": "Sourcery - Helping journalists interview digital assets",
   "main": "index.js",
   "dependencies": {
     "async": "^2.0.1",

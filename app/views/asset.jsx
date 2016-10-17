@@ -4,6 +4,7 @@ const path = require("path");
 const prettyBytes = require('pretty-bytes');
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
+import Mymap from "./map.jsx";
 
 // https://gist.github.com/penguinboy/762197
 var flattenObject = function(ob) {
@@ -102,6 +103,7 @@ class Asset extends React.Component {
 		this.state.shortfname = path.basename(this.props.asset.filename);
 		this.state.filesize = prettyBytes(this.props.asset.fileinfo.size);
 		this.state.f = [ "all" ];
+		this.state.gps = [];
 		if (this.props.asset.exif) {
 			this.state.exif = parseExif(this.props.asset.exif);
 			this.state.features.push(<span className="icon icon-camera"></span>);
@@ -109,6 +111,14 @@ class Asset extends React.Component {
 			if (this.props.asset.exif.gps && this.props.asset.exif.gps.GPSLatitude) {
 				this.state.features.push(<span className="icon icon-location"></span>);
 				this.state.f.push("location");
+				var lat = this.props.asset.exif.gps.GPSLatitude[0] + (this.props.asset.exif.gps.GPSLatitude[1] / 60) + (this.props.asset.exif.gps.GPSLatitude[2] / 3600);
+				var lng = this.props.asset.exif.gps.GPSLongitude[0] + (this.props.asset.exif.gps.GPSLongitude[1] / 60) + (this.props.asset.exif.gps.GPSLongitude[2] / 3600);
+				if (this.props.asset.exif.gps.GPSLongitudeRef === "W")
+					lng *= -1;
+				if (this.props.asset.exif.gps.GPSLatitudeRef === "S")
+					lat *= -1;
+				this.state.center = [ lat, lng ];
+				this.state.gps.push(<Mymap position={ this.state.center } />);
 			}
 		}
 		if (this.props.asset.pdf) {
@@ -194,6 +204,7 @@ class Asset extends React.Component {
 						<strong>Access Time</strong> { this.props.asset.fileinfo.atime }<br />
 						<strong>Birthtime</strong> { this.props.asset.fileinfo.birthtime }
 					</p>
+					{ this.state.gps }
 					<p>
 						{ this.state.exif }
 					</p>

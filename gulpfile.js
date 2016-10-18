@@ -6,6 +6,8 @@ const autoprefixer = require('gulp-autoprefixer');
 const rename = require("gulp-rename");
 const run = require("gulp-run");
 const less = require("gulp-less");
+// const iconutil = require('gulp-iconutil');
+const sketch = require('gulp-sketch');
 
 var cssSources = [
   'assets/photon-0.1.2-dist/css/photon.css',
@@ -32,6 +34,17 @@ gulp.task('css', () => {
 gulp.task('jsx', () => {
 	gulp.src(jsxSources)
 	.pipe(livereload());
+});
+
+gulp.task('icon', () => {
+  gulp.src('./asset/icon/*.sketch')
+    .pipe(sketch({
+      exports: 'artboards',
+      format: 'png',
+      scales: '1.0,2.0'
+    }))
+    // .pipe(iconutil('app.icns'))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('watch', function(){

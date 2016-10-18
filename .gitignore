@@ -1,3 +1,4 @@
 node_modules
 test\ files/*
 yarn.lock
+.DS_Store

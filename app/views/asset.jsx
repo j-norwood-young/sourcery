@@ -67,11 +67,11 @@ var assetClick = function(data) {
 }
 
 
-var parsePDF = function(obj) {
-	let flatPDF = flattenObject(obj);
+var parseMeta = function(obj) {
+	let flatMeta = flattenObject(obj);
 	var result = [];
-	for (let i in flatPDF) {
-		result.push(<div className="pdfinfo"><strong>{i}</strong> {flatPDF[i]}</div>);
+	for (let i in flatMeta) {
+		result.push(<div className="meta"><strong>{i}</strong> {flatMeta[i]}</div>);
 	}
 	return result;
 }
@@ -121,8 +121,8 @@ class Asset extends React.Component {
 				this.state.gps.push(<Mymap position={ this.state.center } />);
 			}
 		}
-		if (this.props.asset.pdf) {
-			this.state.pdf = parsePDF(this.props.asset.pdf);
+		if (this.props.asset.meta) {
+			this.state.pdf = parseMeta(this.props.asset.meta);
 			this.state.features.push(<span className="icon icon-info"></span>);
 			this.state.f.push("meta");
 		}

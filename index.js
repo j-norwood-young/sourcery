@@ -54,6 +54,7 @@ ipc.on('open-file-dialog', function (event) {
 		filters : [
 			{ name: 'Images', extensions: ['jpg', 'png', 'gif', 'jpeg'] },
 			{ name: 'PDF', extensions: ['pdf'] },
+			{ name: 'Docs', extensions: ['docx']}
 		]
 	}, function (files) {
 		if (files) event.sender.send('selected-directory', files);

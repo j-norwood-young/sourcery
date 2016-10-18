@@ -9,8 +9,8 @@ var getMeta = (fname) => {
 	.then((doc) => {
 		return doc.getMetadata();
 	});
-}
+};
 
 module.exports = {
 	get_meta: getMeta
-}
+};

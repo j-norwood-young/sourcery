@@ -1,7 +1,7 @@
 const ipc = require('electron').ipcRenderer;
 const fs = require("fs");
 const exif = require('fast-exif');
-const { fileinfo, filetype, pdf } = require(__dirname + "/../lib/meta-geta.js");
+const { fileinfo, filetype, pdf, docx } = require(__dirname + "/../lib/meta-geta.js");
 const async = require("async");
 const path = require("path");
 const maxdepth = 1;
@@ -15,10 +15,19 @@ var imgFile = (fname) => {
 		return fname;
 	}
 	if (ext == ".pdf") {
-		console.log("PDF");
 		return path.join(__dirname, "../../assets/icons/pdf.svg");
 	}
+
+	if (ext == ".docx") {
+		return path.join(__dirname, "../../assets/icons/docx.png");
+	}
 	console.log("Not found", ext);
+};
+
+var parseFiletype = (fname) => {
+	var ext = path.extname(fname);
+	if (ext === ".pdf") return pdf(fname);
+	if (ext === ".docx") return docx(fname);
 };
 
 var processFile = (fname, depth) => {
@@ -62,16 +71,14 @@ var processFile = (fname, depth) => {
 	})
 	.then((result) => {
 		data.filetype = result;
-		if (path.extname(fname) === ".pdf") {
-			return pdf(fname);
-		} else {
-			return null;
-		}
+		return parseFiletype(fname);
 	})
 	.then((result) => {
 		console.log(result);
 		if (result)
-			data.pdf = result;
+			data.meta = result;
+	})
+	.then((result) => {
 		data.img = imgFile(fname);
 		ipc.send("asset-parsed", data);
 	}, (err) => { console.log(err); });

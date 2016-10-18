@@ -3,6 +3,7 @@
 const fs = require("fs");
 const identify = require("identify-filetype");
 const pdfmeta = require("./pdf-meta");
+const docxmeta = require("./docx-meta");
 
 var filetype = (fname) => {
 	return new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ var filetype = (fname) => {
 			reject(err);
 		}
 	});
-}
+};
 
 function fileinfo(fname) {
 	return new Promise((resolve, reject) => {
@@ -30,6 +31,10 @@ function fileinfo(fname) {
 
 var pdf = (fname) => {
 	return pdfmeta.get_meta(fname);
-}
+};
 
-module.exports = { fileinfo, filetype, pdf };
+var docx = (fname) => {
+	return docxmeta.get_meta(fname);
+};
+
+module.exports = { fileinfo, filetype, pdf, docx };

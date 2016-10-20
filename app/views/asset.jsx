@@ -48,7 +48,6 @@ var parseExif = (exif) => {
 		"exif.DateTimeOriginal": "Original Time",
 		"exif.DateTimeDigitized": "Digitized Time",
 		"image.ModifiedDate": "Modified Time",
-
 	}
 	if (!exif) return null;
 	var result = [];
@@ -56,7 +55,7 @@ var parseExif = (exif) => {
 	// console.log(flatExif);
 	for (let i in flatExif) {
 		// console.log(i, flatExif[i])
-		result.push(<div className="exif"><strong>{i}</strong> {flatExif[i]}</div>);
+		result.push(<tr><td>{i}</td><td>{flatExif[i]}</td></tr>);
 	}
 	return result;
 }
@@ -71,7 +70,7 @@ var parseMeta = function(obj) {
 	let flatMeta = flattenObject(obj);
 	var result = [];
 	for (let i in flatMeta) {
-		result.push(<div className="meta"><strong>{i}</strong> {flatMeta[i]}</div>);
+		result.push(<tr><td>{i}</td><td>{flatMeta[i]}</td></tr>);
 	}
 	return result;
 }
@@ -146,9 +145,7 @@ class Asset extends React.Component {
 			}
 			var foundFeature = false;
 			for(var i in filters.feature) {
-				console.log("Checking", i);
 				if (filters.feature[i] && (this.state.f.indexOf(i) !== -1)) {
-					console.log("Found");
 					foundFeature = true;
 					break;
 				}
@@ -198,19 +195,17 @@ class Asset extends React.Component {
 							{ this.state.features }
 						</div>
 					</div>
-					<p>
-						<strong>Change Time</strong> { this.props.asset.fileinfo.ctime }<br />
-						<strong>Modified Time</strong> { this.props.asset.fileinfo.mtime }<br />
-						<strong>Access Time</strong> { this.props.asset.fileinfo.atime }<br />
-						<strong>Birthtime</strong> { this.props.asset.fileinfo.birthtime }
-					</p>
-					{ this.state.gps }
-					<p>
+					<table className="table-striped">
+						<tbody>
+						<tr><td>Change Time</td><td>{ this.props.asset.fileinfo.ctime }</td></tr>
+						<tr><td>Modified Time</td><td>{ this.props.asset.fileinfo.mtime }</td></tr>
+						<tr><td>Access Time</td><td>{ this.props.asset.fileinfo.atime }</td></tr>
+						<tr><td>Birthtime</td><td>{ this.props.asset.fileinfo.birthtime }</td></tr>
 						{ this.state.exif }
-					</p>
-					<p>
 						{ this.state.pdf }
-					</p>
+						</tbody>
+					</table>
+					{ this.state.gps }
 				</div>
 			);
 		}

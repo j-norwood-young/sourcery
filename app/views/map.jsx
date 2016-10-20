@@ -10,7 +10,7 @@ class Mymap extends React.Component {
 	}
 	render() {
 		return (
-			<Map center={ this.props.position } zoom={ 13 } scrollWheelZoom={ false }>
+			<Map center={ this.props.position } zoom={ 13 } scrollWheelZoom={ false } path="./leaflet/images">
 				<TileLayer
 					url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 					attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

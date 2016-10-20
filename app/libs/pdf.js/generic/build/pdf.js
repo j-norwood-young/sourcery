@@ -11577,4 +11577,4 @@ exports._UnsupportedManager = _UnsupportedManager;
   exports.addLinkAttributes = pdfjsLibs.pdfjsDisplayDOMUtils.addLinkAttributes;
 }));
 
-PDFJS.workerSrc = "../assets/pdf.js/pdf.worker.js";
+PDFJS.workerSrc = "./libs/pdf.js/pdf.worker.js";

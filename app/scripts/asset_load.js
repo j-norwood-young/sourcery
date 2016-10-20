@@ -1,7 +1,7 @@
 const ipc = require('electron').ipcRenderer;
 const fs = require("fs");
 const exif = require('fast-exif');
-const { fileinfo, filetype, pdf, docx } = require(__dirname + "/../lib/meta-geta.js");
+const { fileinfo, filetype, pdf, docx } = require(__dirname + "/../libs/meta-geta/meta-geta.js");
 const async = require("async");
 const path = require("path");
 const maxdepth = 1;
@@ -15,11 +15,11 @@ var imgFile = (fname) => {
 		return fname;
 	}
 	if (ext == ".pdf") {
-		return path.join(__dirname, "../../assets/icons/pdf.svg");
+		return path.join(__dirname, "../public/icons/pdf.svg");
 	}
 
 	if (ext == ".docx") {
-		return path.join(__dirname, "../../assets/icons/docx.png");
+		return path.join(__dirname, "../public/icons/docx.png");
 	}
 	console.log("Not found", ext);
 };

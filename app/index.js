@@ -8,10 +8,10 @@ function createWindow () {
 	win = new BrowserWindow({minWidth: 800, minHeight: 600, width: 1024, height: 600 });
 
 	// and load the index.html of the app.
-	win.loadURL(`file://${__dirname}/app/index.html`);
+	win.loadURL(`file://${__dirname}/index.html`);
 
 	// Open the DevTools.
-	win.webContents.openDevTools();
+	// win.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	win.on('closed', () => {
@@ -71,7 +71,7 @@ ipc.on("clear-workspace", (event) => {
 });
 
 ipc.on("asset-clicked", (event, asset) => {
-	console.log(event);
+	// console.log(event);
 	event.sender.send("asset-detail", asset);
 });
 
@@ -92,8 +92,8 @@ var filters = {
 };
 
 ipc.on("filter", (event, filterType, filterIndex, state) => {
-	console.log(filterType, filterIndex, state);
+	// console.log(filterType, filterIndex, state);
 	filters[filterType][filterIndex] = state;
-	console.log(filters);
+	// console.log(filters);
 	event.sender.send("filter", filters);
 });

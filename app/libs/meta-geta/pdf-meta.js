@@ -1,7 +1,7 @@
 "use strict";
 
 const fs = require("fs");
-const pdfjs = require("../../assets/pdf.js/generic/build/pdf.js");
+const pdfjs = require("../pdf.js/generic/build/pdf.js");
 
 var getMeta = (fname) => {
 	var fdata = new Uint8Array(fs.readFileSync(fname));

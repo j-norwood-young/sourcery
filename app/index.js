@@ -70,6 +70,10 @@ ipc.on("clear-workspace", (event) => {
 	event.sender.send("clear-workspace");
 });
 
+ipc.on("home", (event) => {
+	event.sender.send("home");
+});
+
 ipc.on("asset-clicked", (event, asset) => {
 	// console.log(event);
 	event.sender.send("asset-detail", asset);

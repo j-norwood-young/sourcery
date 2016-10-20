@@ -1,6 +1,6 @@
 'use babel';
 import React from 'react';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer } from '../libs/react-leaflet/lib';
 
 const position = [51.505, -0.09];
 

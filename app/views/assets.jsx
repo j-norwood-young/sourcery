@@ -9,10 +9,15 @@ class Assets extends React.Component {
 		super(props);
 		this.state = { 
 			children: [],
+			detail: null
 		};
 		ipc.on("asset-parsed", (event, asset) => {
 			console.log("Setting asset", asset)
 			this.setState({ children: this.state.children.concat([(<Asset key={ asset.filename } asset={ asset } preview={ true } />)]) } );
+		});
+		ipc.on("asset-detail", (sender, asset) => {
+			// First we clear the element, to stop stupid React from updating state instead of replacing the entire thing
+			this.setState({ detail: <Asset asset={ asset } key={ asset.filename } /> });
 		});
 		ipc.on("clear-workspace", (event) => {
 			console.log("Clearing workspace");
@@ -26,10 +31,13 @@ class Assets extends React.Component {
 		});
 	}
 	render()  {
-		return <div className="asset-group">
-			{ 
-				this.state.children
-			}
+		return <div>
+			<div id="assets">
+			{ this.state.children }
+			</div>
+			<div id="detail">
+			{ this.state.detail }
+			</div>
 		</div>;
 	}
 }

@@ -2522,8 +2522,7 @@ img {
 }
 
 #assets {
-  width: 33%;
-  min-width: 300px;
+  width: 33vw;
   padding-right: 10px;
   border-right: 1px #ccc solid;
   height: 100%;
@@ -2555,7 +2554,7 @@ img {
   height: 100%;
   overflow-y: scroll;
   float: left;
-  width: 66%;
+  width: 66vw;
   padding-left: 10px;
 }
 #detail img {
@@ -2578,4 +2577,15 @@ img {
   width: 50%;
 }
 
+
+#landing {
+  padding: 20px;
+}
+#landing img {
+  max-width: 80px;
+  max-height: 80px;
+  float: left;
+  border: none;
+  margin-right: 50px;
+}
 

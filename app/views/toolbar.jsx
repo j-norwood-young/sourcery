@@ -9,7 +9,7 @@ class Toolbar extends React.Component {
 	render()  {
 		return <div className="toolbar">
 			<div className="btn-group">
-				<TopButton icon="home" active={false} />
+				<TopButton icon="home" active={false} onClick={() => { ipc.send('home'); }} />
 				<TopButton icon="folder" active={false} onClick={() => { ipc.send('open-file-dialog'); }} />
 				<TopButton icon="cancel" active={false} onClick={() => { ipc.send('clear-workspace'); }} />
 			</div>
